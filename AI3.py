@@ -1,0 +1,38 @@
+def unify(x, y, subst = {}):
+    if x ==y:
+        return sunst
+    elif isinstance(x, str) and x.islower():
+        return {x:y}
+    elif isinstance(y, str) and y.islower():
+        return {y:x}
+    else:
+        return None
+def resolve(c1, c2):
+    for lit1 in c1:
+        for lit2 in c2:
+            if lit1 == "~" + lit2 or "~" + lit1 == lit2:
+                new_clause = list(set(c1 + c2) - { lit1, lit2})
+                return new_clause
+            return None
+def resolution(kb, query):
+    clauses = kb + [["~" + q for q in query]]
+    while True:
+        new_clauses = []
+        for i in range(len(clauses)):
+            for j in range(i + 1, len(clauses)):
+                resolvent = resolve(clauses[i], clauses[j])
+                if resolvent is not None:
+                    if not resolvent:
+                        return True
+                    new_clauses.apend(resolvent)
+        if not any(c1 not in clauses for c1 in new_clauses):
+            return False
+        clauses.extend(new_clauses)
+    #Example usage
+        kb = [
+            ["P(a)"],
+            ["~P(a)","Q(a)"]
+            ]
+        query = ["Q(a)"]
+        if resolution(kb, query):
+            print("Query is entailed by the knowledge base.")
